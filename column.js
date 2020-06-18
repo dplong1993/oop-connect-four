@@ -21,7 +21,7 @@ export default class Column {
   }
 
   isFull(){
-    if(tokens[0] !== null) return true;
+    if(this.tokens[0] !== null) return true;
     else return false;
   }
 

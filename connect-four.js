@@ -1,6 +1,7 @@
 import Game from './game.js'
 
 let game = undefined;
+
 const updateUi = () => {
     if (game === undefined) {
         document.getElementById("board-holder").classList.add("is-invisible");
@@ -19,7 +20,6 @@ const updateUi = () => {
             ctarget.classList.add('red');
             debugger
         }
-
     }
 
     for (let i = 0; i < 6; i++) {
@@ -40,6 +40,15 @@ const updateUi = () => {
                 element.appendChild(ele);
             }
         }
+    }
+
+    for(let i = 0; i < 7; i++){
+      const col = document.getElementById(`column-${i}`);
+      if(game.isColumnFull(i)) {
+        col.classList.add('full');
+      } else {
+        col.classList.remove('full');
+      }
     }
 }
 
