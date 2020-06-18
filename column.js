@@ -9,8 +9,7 @@ export default class Column {
   add(playerNum){
     //Zeroth position is the bottom of the column
     let i = 6;
-    while(true){
-    //TODO Add check to see if entire column is full
+    while(i > -1){
       if(this.tokens[i] === null){
         this.tokens[i] = playerNum;
         break;
@@ -21,12 +20,26 @@ export default class Column {
   }
 
   isFull(){
-    if(this.tokens[0] !== null) return true;
-    else return false;
+    //debugger
+    if(this.tokens[0] !== null) {
+      //debugger
+      return true;
+    }
+    else {
+      //debugger
+      return false;
+    }
   }
 
   getTokenAt(rowIndexNum){
-    if(this.tokens[rowIndexNum]) return this.tokens[rowIndexNum];
-    else return null;
+    //debugger
+    if(this.tokens[rowIndexNum]) {
+      //debugger
+      return this.tokens[rowIndexNum];
+    }
+    else {
+      //debugger
+      return null;
+    }
   }
 }

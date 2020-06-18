@@ -27,17 +27,22 @@ const updateUi = () => {
             const element = document.getElementById(`square-${i}-${j}`);
             const tokenvalue = game.getTokenAt(i,j);
             element.innerHTML = "";
+            debugger
             if (tokenvalue === 1) {
+                debugger
                 const ele = document.createElement('div');
                 ele.classList.add('token');
                 ele.classList.add('black');
                 element.appendChild(ele);
+                debugger
 
             } else if (tokenvalue === 2) {
+                debugger
                 const ele = document.createElement('div');
                 ele.classList.add('token');
                 ele.classList.add('red');
                 element.appendChild(ele);
+                debugger
             }
         }
     }
@@ -45,6 +50,7 @@ const updateUi = () => {
     for(let i = 0; i < 7; i++){
       const col = document.getElementById(`column-${i}`);
       if(game.isColumnFull(i)) {
+        console.log(i);
         col.classList.add('full');
       } else {
         col.classList.remove('full');
@@ -85,7 +91,8 @@ window.addEventListener('DOMContentLoaded', (e) => {
 
     ctarget.addEventListener('click', e => {
         // debugger
-        const clicker = e.target.id
+        console.log('clicked');
+        const clicker = e.target.id;
         if (clicker.startsWith("column-")) {
             const lastchar = Number.parseInt(clicker[clicker.length - 1]);
             game.playInColumn(lastchar);
@@ -93,7 +100,6 @@ window.addEventListener('DOMContentLoaded', (e) => {
             updateUi();
         // debugger
         }
-
     })
 
 
