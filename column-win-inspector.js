@@ -1,20 +1,18 @@
 export default class ColumnWinInspector {
     constructor(column) {
-        console.log(column);
+        //console.log("Column passed into CWI is", column);
         this.column = column;
     }
 
     inspect () {
-        for (let i = 0; i < 3; i++) {
-            const playernumber = this.column[i];
-            console.log(playernumber, i, i+1, i+2, i+3);
+        for (let i = 5; i > 2; i--) {
+            const playernumber = this.column.getTokenAt(i);
+            //console.log("Current column is ", this.column, 'i is', i, "PlayerNum is", playernumber);
             if (playernumber !== 1 && playernumber !== 2) {
-                console.log("Not a number");
                 return 0;
-            } else if (playernumber === this.column[i + 1]) {
-                if (playernumber === this.column[i + 2]) {
-                    if (playernumber === this.column[i + 3]) {
-                        console.log("hi!");
+            } else if (playernumber === this.column.getTokenAt(i - 1)) {
+                if (playernumber === this.column.getTokenAt(i - 2)) {
+                    if (playernumber === this.column.getTokenAt(i-3)) {
                         return playernumber;
                     }
                 }

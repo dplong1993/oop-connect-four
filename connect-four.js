@@ -50,7 +50,7 @@ const updateUi = () => {
     for(let i = 0; i < 7; i++){
       const col = document.getElementById(`column-${i}`);
       if(game.isColumnFull(i)) {
-        console.log(i);
+        // console.log(i);
         col.classList.add('full');
       } else {
         col.classList.remove('full');
@@ -91,9 +91,9 @@ window.addEventListener('DOMContentLoaded', (e) => {
 
     ctarget.addEventListener('click', e => {
         // debugger
-        console.log('clicked');
+        // console.log('clicked');
         const clicker = e.target.id;
-        if (clicker.startsWith("column-")) {
+        if (clicker.startsWith("column-") && !(e.target.classList.contains('full'))) {
             const lastchar = Number.parseInt(clicker[clicker.length - 1]);
             game.playInColumn(lastchar);
         // debugger

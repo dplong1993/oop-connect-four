@@ -77,6 +77,7 @@ export default class Game{
 
   checkForColumnWin(){
     for(let i = 0; i < this.columns.length; i++){
+      //console.log(`Column ${i} is`, this.columns[i]);
       const columnInspector = new ColumnWinInspector(this.columns[i]);
       const columnRes = columnInspector.inspect();
       if(columnRes > 0){
