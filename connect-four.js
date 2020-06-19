@@ -1,6 +1,8 @@
 import Game from './game.js'
+import GameJsonSerializer from './game-json-serializer.js'
 
 let game = undefined;
+let serializer = undefined;
 
 const updateUi = () => {
     if (game === undefined) {
@@ -65,6 +67,13 @@ window.addEventListener('DOMContentLoaded', (e) => {
     const nameformholder = document.getElementById("form-holder");
     const ctarget = document.getElementById("click-targets");
 
+    //check local to see if game is in progress
+    let gameStatus = localStorage.getItem('game-status');
+    if(gameStatus !== null){
+
+    }
+
+
     nameformholder.addEventListener('keyup', e => {
         const name1 = p1name.value;
         const name2 = p2name.value;
@@ -86,20 +95,22 @@ window.addEventListener('DOMContentLoaded', (e) => {
         p2name.value = '';
         ngame.setAttribute('disabled', true);
         updateUi();
-
+        serializer = new GameJsonSerializer(game);
     })
 
     ctarget.addEventListener('click', e => {
+    // debugger
+    // console.log('clicked');
+    const clicker = e.target.id;
+    if (clicker.startsWith("column-") && !(e.target.classList.contains('full'))) {
+        const lastchar = Number.parseInt(clicker[clicker.length - 1]);
+        game.playInColumn(lastchar);
         // debugger
-        // console.log('clicked');
-        const clicker = e.target.id;
-        if (clicker.startsWith("column-") && !(e.target.classList.contains('full'))) {
-            const lastchar = Number.parseInt(clicker[clicker.length - 1]);
-            game.playInColumn(lastchar);
+        updateUi();
         // debugger
-            updateUi();
-        // debugger
-        }
+        const gameStatus = serializer.serialize();
+        localStorage.setItem('game-status', gameStatus);
+    }
     })
 
 

@@ -57,18 +57,9 @@ export default class Game{
       }
 
       if (this.winnerNumber === 0){
-        const columnWinRes = this.checkForColumnWin();
-        if (columnWinRes > 0){
-          this.winnerNumber = columnWinRes;
-        }
-        const rowWinRes = this.checkForRowWin();
-        if (rowWinRes > 0){
-          this.winnerNumber = rowWinRes;
-        }
-        const diagWinRes = this.checkForDiagWin();
-        if (diagWinRes > 0){
-          this.winnerNumber = diagWinRes;
-        }
+        this.checkForColumnWin();
+        this.checkForRowWin();
+        this.checkForDiagWin();
       }
   }
 
