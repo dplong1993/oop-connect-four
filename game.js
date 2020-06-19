@@ -1,6 +1,7 @@
 import Column from './column.js'
 import ColumnWinInspector from './column-win-inspector.js'
 import RowWinInspector from './row-win-inspector.js'
+import DiagonalWinInspector from './diagonal-win-inspector.js'
 
 export default class Game{
   constructor(p1Name, p2Name){
@@ -64,6 +65,10 @@ export default class Game{
         if (rowWinRes > 0){
           this.winnerNumber = rowWinRes;
         }
+        const diagWinRes = this.checkForDiagWin();
+        if (diagWinRes > 0){
+          this.winnerNumber = diagWinRes;
+        }
       }
   }
 
@@ -99,6 +104,18 @@ export default class Game{
       const rowResult = rowInspector.inspect();
       if(rowResult > 0){
         this.winnerNumber = rowResult;
+        break;
+      }
+    }
+  }
+
+  checkForDiagWin(){
+    for (let i = 0; i < 4; i++) {
+      // console.log(this.columns.slice(i, i+4));
+      const diagInspector = new DiagonalWinInspector(this.columns.slice(i,i+4));
+      const diagResult = diagInspector.inspect();
+      if(diagResult > 0){
+        this.winnerNumber = diagResult;
         break;
       }
     }
