@@ -17,21 +17,18 @@ export default class Game{
   }
 
   getName(){
-    if (this.winnerNumber === 3) {
-        return `${this.p1Name} ties with ${this.p2Name}!!`;
-    } else if(this.winnerNumber > 0){
-        if(this.winnerNumber === 1){
-          return `${this.p1Name} wins!!!`;
-        } else {
-            return `${this.p2Name} wins!!!`;
-        }
+    if (this.winnerNumber === 1) {
+      return `${this.p1Name} wins!!!`;
+    } else if(this.winnerNumber === 2) {
+      return `${this.p2Name} wins!!!`;
+    } else if(this.winnerNumber === 3){
+      return `${this.p1Name} ties with ${this.p2Name}!!`;
     } else {
-        return `${this.p1Name} vs. ${this.p2Name}`;
+      return `${this.p1Name} vs. ${this.p2Name}`;
     }
   }
 
   getTokenAt(rowIndex, columnIndex){
-    debugger
     return this.columns[columnIndex].getTokenAt(rowIndex);
   }
 
@@ -43,18 +40,9 @@ export default class Game{
   playInColumn(columnIndex) {
       this.columns[columnIndex].add(this.currentplayer);
 
-      //debugger
-      if (this.currentplayer === 1) {
-          this.currentplayer = 2;
-          //debugger
-      } else {
-          this.currentplayer = 1;
-          //debugger
-      }
+      this.changePlayer();
 
-      if (this.checkForTie()) {
-          this.winnerNumber = 3;
-      }
+      if (this.checkForTie()) this.winnerNumber = 3;
 
       if (this.winnerNumber === 0){
         this.checkForColumnWin();
@@ -65,9 +53,7 @@ export default class Game{
 
   checkForTie() {
       let allFull = true;
-      // debugger
       for (let i = 0; i < this.columns.length; i++) {
-          // debugger
           allFull = this.columns[i].isFull();
           if (allFull === false) {
               return false
@@ -78,7 +64,6 @@ export default class Game{
 
   checkForColumnWin(){
     for(let i = 0; i < this.columns.length; i++){
-      //console.log(`Column ${i} is`, this.columns[i]);
       const columnInspector = new ColumnWinInspector(this.columns[i]);
       const columnRes = columnInspector.inspect();
       if(columnRes > 0){
@@ -90,7 +75,6 @@ export default class Game{
 
   checkForRowWin(){
     for (let i = 0; i < 4; i++) {
-      // console.log(this.columns.slice(i, i+4));
       const rowInspector = new RowWinInspector(this.columns.slice(i,i+4));
       const rowResult = rowInspector.inspect();
       if(rowResult > 0){
@@ -102,7 +86,6 @@ export default class Game{
 
   checkForDiagWin(){
     for (let i = 0; i < 4; i++) {
-      // console.log(this.columns.slice(i, i+4));
       const diagInspector = new DiagonalWinInspector(this.columns.slice(i,i+4));
       const diagResult = diagInspector.inspect();
       if(diagResult > 0){
@@ -110,5 +93,10 @@ export default class Game{
         break;
       }
     }
+  }
+
+  changePlayer(){
+    if (this.currentplayer === 1) this.currentplayer = 2;
+    else this.currentplayer = 1;
   }
 }

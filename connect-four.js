@@ -6,7 +6,6 @@ let game = undefined;
 let serializer = undefined;
 let deserializer = undefined;
 
-
 window.addEventListener('DOMContentLoaded', (e) => {
     const p1name = document.getElementById("player-1-name");
     const p2name = document.getElementById("player-2-name");
