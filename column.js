@@ -1,9 +1,6 @@
 export default class Column {
   constructor(){
-    this.tokens = [];
-    for(let i = 0; i < 6; i++){
-      this.tokens.push(null);
-    }
+    this.tokens = new Array(6).fill(null);
   }
 
   add(playerNum){
@@ -13,33 +10,17 @@ export default class Column {
       if(this.tokens[i] === null){
         this.tokens[i] = playerNum;
         break;
-      } else {
-        i--;
-      }
+      } else i--;
     }
   }
 
   isFull(){
-    //debugger
-    if(this.tokens[0] !== null) {
-      //debugger
-      return true;
-    }
-    else {
-      //debugger
-      return false;
-    }
+    if(this.tokens[0] !== null) return true;
+    else return false;
   }
 
   getTokenAt(rowIndexNum){
-    //debugger
-    if(this.tokens[rowIndexNum]) {
-      //debugger
-      return this.tokens[rowIndexNum];
-    }
-    else {
-      //debugger
-      return null;
-    }
+    if(this.tokens[rowIndexNum]) return this.tokens[rowIndexNum];
+    else return null;
   }
 }
