@@ -5,6 +5,20 @@ export default class GameJsonSerializer{
 
   serialize(){
     //build the data
+    const boardArr = this.buildBoardData();
+
+    //JSON.stringify the data, the game obj, and the player names
+    const boardStr = JSON.stringify(boardArr);
+    const playerOneName = JSON.stringify(this.game.p1Name);
+    const playerTwoName = JSON.stringify(this.game.p2Name);
+
+    //Store the strings
+    localStorage.setItem('player-one-name', playerOneName);
+    localStorage.setItem('player-two-name', playerTwoName);
+    localStorage.setItem('game-status', boardStr);
+  }
+
+  buildBoardData(){
     let currentIndexes = [5,5,5,5,5,5,5];
     let instructions = [];
     let valueToLookFor = 1;
@@ -25,15 +39,6 @@ export default class GameJsonSerializer{
         columnIndex++;
       }
     }
-
-    //JSON.stringify the data, the game obj, and the player names
-    instructions = JSON.stringify(instructions);
-    let playerOneName = JSON.stringify(this.game.p1Name);
-    let playerTwoName = JSON.stringify(this.game.p2Name);
-
-    //Store the strings
-    localStorage.setItem('player-one-name', playerOneName);
-    localStorage.setItem('player-two-name', playerTwoName);
-    localStorage.setItem('game-status', instructions);
+    return instructions;
   }
 }
