@@ -1,6 +1,5 @@
 export default class GameJsonSerializer{
   constructor(game){
-    console.log("In serializer constructor.")
     this.game = game;
   }
 
@@ -11,11 +10,9 @@ export default class GameJsonSerializer{
     let valueToLookFor = 1;
     let columnIndex = 0;
     while(columnIndex < currentIndexes.length){
-      console.log("CurrentIndexes", currentIndexes, "instructions", instructions, "value to look for", valueToLookFor, "columnIndex", columnIndex);
       let rowIndex = currentIndexes[columnIndex];
       let token = this.game.getTokenAt(rowIndex, columnIndex);
       if(token === valueToLookFor){
-        console.log("Token is the value to look for");
         instructions.push(columnIndex);
         if(valueToLookFor === 1){
           valueToLookFor = 2;
@@ -25,15 +22,18 @@ export default class GameJsonSerializer{
         currentIndexes[columnIndex]--;
         columnIndex = 0;
       }else {
-        console.log("Token is not the value to look for");
         columnIndex++;
       }
     }
 
-    //JSON.stringify the data
+    //JSON.stringify the data, the game obj, and the player names
     instructions = JSON.stringify(instructions);
+    let playerOneName = JSON.stringify(this.game.p1Name);
+    let playerTwoName = JSON.stringify(this.game.p2Name);
 
-    //Return the string
-    return instructions;
+    //Store the strings
+    localStorage.setItem('player-one-name', playerOneName);
+    localStorage.setItem('player-two-name', playerTwoName);
+    localStorage.setItem('game-status', instructions);
   }
 }

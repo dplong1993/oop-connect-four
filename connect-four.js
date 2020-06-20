@@ -1,8 +1,16 @@
 import Game from './game.js'
 import GameJsonSerializer from './game-json-serializer.js'
+import GameJsonDeserializer from './game-json-deserializer.js';
 
 let game = undefined;
 let serializer = undefined;
+let deserializer = undefined;
+
+const clearLocalStorage = () => {
+  localStorage.removeItem('game-status');
+  localStorage.removeItem('player-one-name');
+  localStorage.removeItem('player-two-name');
+};
 
 const updateUi = () => {
     if (game === undefined) {
@@ -10,8 +18,15 @@ const updateUi = () => {
     } else {
         document.getElementById("board-holder").classList.remove("is-invisible");
         document.getElementById("game-name").innerHTML = game.getName();
+        console.log(game.winnerNumber);
+        if(game.winnerNumber !== 0){
+            console.log("Game Over");
+            //TODO ASK A QUESTION ABOUT WHY THIS DOES NOT CLEAR
+            //LOCAL STORAGE IMMEDIATELY.
+            clearLocalStorage();
+            document.getElementById('new-game').removeAttribute('disabled');
+        }
         const currentplayer = game.currentplayer;
-        debugger
         const ctarget = document.getElementById("click-targets");
         if (currentplayer === 1) {
             ctarget.classList.remove('red');
@@ -58,7 +73,7 @@ const updateUi = () => {
         col.classList.remove('full');
       }
     }
-}
+};
 
 window.addEventListener('DOMContentLoaded', (e) => {
     const p1name = document.getElementById("player-1-name");
@@ -69,21 +84,21 @@ window.addEventListener('DOMContentLoaded', (e) => {
 
     //check local to see if game is in progress
     let gameStatus = localStorage.getItem('game-status');
-    if(gameStatus !== null){
-
+    if(gameStatus){
+      deserializer = new GameJsonDeserializer('game-status');
+      game = deserializer.deserialize();
+      serializer = new GameJsonSerializer(game);
+      updateUi();
     }
 
 
     nameformholder.addEventListener('keyup', e => {
         const name1 = p1name.value;
         const name2 = p2name.value;
-        //debugger
         if (p2name.value !== "" && p1name.value !== "") {
            ngame.removeAttribute('disabled');
-           //debugger
         } else {
             ngame.disabled = true;
-            //debugger
         }
     });
 
@@ -94,27 +109,23 @@ window.addEventListener('DOMContentLoaded', (e) => {
         p1name.value = "";
         p2name.value = '';
         ngame.setAttribute('disabled', true);
+
         updateUi();
+
         serializer = new GameJsonSerializer(game);
-    })
+        serializer.serialize();
+    });
 
     ctarget.addEventListener('click', e => {
-    // debugger
-    // console.log('clicked');
-    const clicker = e.target.id;
-    if (clicker.startsWith("column-") && !(e.target.classList.contains('full'))) {
-        const lastchar = Number.parseInt(clicker[clicker.length - 1]);
-        game.playInColumn(lastchar);
-        // debugger
-        updateUi();
-        // debugger
-        const gameStatus = serializer.serialize();
-        localStorage.setItem('game-status', gameStatus);
-    }
-    })
+        const clicker = e.target.id;
+        if (clicker.startsWith("column-") && !(e.target.classList.contains('full'))) {
+            const lastchar = Number.parseInt(clicker[clicker.length - 1]);
+            game.playInColumn(lastchar);
 
+            updateUi();
 
-
-
-
-})
+            //Update the local storage
+            serializer.serialize();
+        }
+    });
+});
